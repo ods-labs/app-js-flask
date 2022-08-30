@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-    <!--    <link rel="stylesheet" href="https://www.unpkg.com/bulma@0.9.4/css/bulma.min.css">-->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
     <link href="{{ url_for('static', filename='css/style.scss.css') }}"
@@ -21,6 +20,17 @@
 </div>
 
 <div class="container app">
+    <div class="login">
+        {% if user %}
+            <div class="user">
+                Connected as {{ user.name }},
+                <a href="/logout">Logout</a>
+            </div>
+        {% else %}
+            <a href="/login">Login</a>, <a href="/register">Register</a>
+        {% endif %}
+    </div>
+
     <div class="columns is-multiline mt-5">
         <div class="column is-3 form-submit-new">
             <div class="card">
@@ -42,6 +52,6 @@
     </div>
 </div>
 
-<script src="/static/index.js"></script>
+<script type="module" src="/static/index.js"></script>
 </body>
 </html>

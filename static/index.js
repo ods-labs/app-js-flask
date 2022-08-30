@@ -1,3 +1,11 @@
+import { getCookie } from "./js/cookies-utils.js";
+
+let authentheaders = {}
+let token = getCookie('session_id')
+if (token) {
+    authentheaders['x-access-tokens'] = token
+}
+
 let form = document.querySelector('form');
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -13,7 +21,8 @@ form.addEventListener('submit', (event) => {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            ...authentheaders
         },
         body: JSON.stringify(data)
     })
@@ -22,7 +31,6 @@ form.addEventListener('submit', (event) => {
             getAllRows();
         })
 });
-
 
 function supprimer(event) {
     if (Array.from(event.target.classList).indexOf("supprimer") >= 0) {
@@ -41,7 +49,7 @@ function supprimer(event) {
 }
 
 function getAllRows() {
-    fetch('/api')
+    fetch('/api', {headers: {...authentheaders}})
         .then(response => response.json())
         .then(response => {
             if (response.data && response.data.length > 0) {

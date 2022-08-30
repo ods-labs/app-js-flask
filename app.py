@@ -4,7 +4,7 @@ from jwt import DecodeError
 import datetime
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, render_template, request, make_response
+from flask import Flask, render_template, request, make_response, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -50,6 +50,8 @@ def check_token(f):
         token = None
         if 'x-access-tokens' in request.headers:
             token = request.headers['x-access-tokens']
+        if 'session_id' in request.cookies:
+            token = request.cookies['session_id']
         if token:
             try:
                 data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
@@ -61,11 +63,10 @@ def check_token(f):
             return f(None, *args, **kwargs)
     return decorator
 
-
-@app.route("/")
-def index():
-    return render_template('index.html')
-
+@app.get("/")
+@check_token
+def base(user):
+    return render_template('index.html', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
 def signup_user():
@@ -79,24 +80,32 @@ def signup_user():
 
     return {'message': 'registered successfully'}
 
-@app.route('/login', methods=['GET', 'POST'])
-def login_user():
+@app.get("/login")
+def login():
+    return render_template('login.html')
 
+@app.post('/login')
+def login_user():
     auth = request.authorization
 
     if not auth or not auth.username or not auth.password:
-        return make_response('could not verify', 401, {'WWW.Authentication': 'Basic realm: "login required"'})
+        return make_response({'status':'failed', 'message': 'Basic auth missing'}, 401)
 
     user = Users.query.filter_by(name=auth.username).first()
 
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'public_id': user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
+    if user and check_password_hash(user.password, auth.password):
+        token = jwt.encode({'public_id': user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(days=1)},
                            app.config['SECRET_KEY'],
                            algorithm='HS256')
         return {'token' : token}
 
-    return make_response('could not verify',  401, {'WWW.Authentication': 'Basic realm: "login required"'})
+    return make_response({'status':'failed', 'message': 'User not found, or wrong password'},  401)
 
+@app.get("/logout")
+def logout():
+    resp = make_response(redirect('/'))
+    resp.delete_cookie('session_id')
+    return resp
 
 @app.get("/api")
 @check_token

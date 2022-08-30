@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/style.scss.css') }}"
+          rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="hero has-background-primary">
+    <div class="hero-body">
+        <h1 class="title">Login</h1>
+    </div>
+</div>
+
+<div class="container app">
+    <div class="columns mt-5">
+        <div class="column is-4">
+            <form id="login">
+                <label>
+                    Username :
+                    <input class="input mb-3" type="text" id="username" />
+                </label>
+                <label>
+                    Password :
+                    <input class="input mb-3" type="password" id="password" />
+                </label>
+                <input class="button" type="submit" value="Se connecter" />
+                <div class="errorPlaceholder is-danger">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/static/login.js"></script>
+</body>
+</html>
