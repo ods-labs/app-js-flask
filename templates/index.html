@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!--    <link rel="stylesheet" href="https://www.unpkg.com/bulma@0.9.4/css/bulma.min.css">-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/style.scss.css') }}"
+          rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="hero has-background-primary">
+    <div class="hero-body">
+        <h1 class="title">Cours full stack</h1>
+    </div>
+</div>
+
+<div class="container app">
+    <div class="columns is-multiline mt-5">
+        <div class="column is-3 form-submit-new">
+            <div class="card">
+                <div class="card-content">
+                    <form>
+                        <label class="label is-size-6 has-text-weight-medium">
+                            Title :
+                            <input id="title" class="input is-small" type="text" />
+                        </label>
+                        <label class="label is-size-6 has-text-weight-medium">
+                            Description :
+                            <input id="description" class="input is-small" type="text" />
+                        </label>
+                        <input class="button submit" type="submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/index.js"></script>
+</body>
+</html>

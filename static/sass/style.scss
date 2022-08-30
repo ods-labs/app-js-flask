@@ -1,0 +1,58 @@
+@import "bulma/bulma";
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 215px;
+
+  .publish {
+    display: flex;
+    justify-content: right;
+    margin: 10px;
+    gap: 5px;
+  }
+
+  .supprimer {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    display: flex;
+    border-radius: 1000px;
+    opacity: 0.5;
+    cursor: pointer;
+
+    .ri-close-line {
+      display: none;
+    }
+
+    &:hover {
+      opacity: inherit;
+    }
+
+    .icon {
+      pointer-events: none;
+    }
+
+    .confirm {
+      width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    &.active {
+      .confirm {
+        margin: 0 8px 0 0;
+        width: fit-content;
+      }
+
+      .ri-close-line {
+        display: inherit;
+      }
+      .ri-delete-bin-6-line {
+        display: none;
+      }
+    }
+
+  }
+}
