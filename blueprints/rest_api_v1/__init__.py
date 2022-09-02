@@ -72,14 +72,17 @@ def get_api(user):
     rows = Postit.query.all()
     ret = []
     for row in rows:
-        if not (user and user.admin) and not row.publish:
+        # if unpublished and not owner or admin, skip
+        if not row.publish and not (user and (user.id == row.user_id or user.admin)):
             continue
         output = dict()
         output['id'] = row.id
         output['title'] = row.title
         output['description'] = row.description
+        # admin or owner
         if user and (user.id == row.user_id or user.admin):
             output['delete'] = True
+        # admin only
         if user and user.admin:
             output['publish'] = row.publish
         ret.append(output)
