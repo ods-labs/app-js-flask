@@ -32,6 +32,9 @@
     </div>
 
     <div class="columns is-multiline mt-5">
+        <!-- Postits are loaded here -->
+
+        {% if user %}
         <div class="column is-3 form-submit-new">
             <div class="card">
                 <div class="card-content">
@@ -49,9 +52,11 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 
 <script type="module" src="/static/index.js"></script>
+<script type="module" src="/static/js/Postit.js"></script>
 </body>
 </html>
